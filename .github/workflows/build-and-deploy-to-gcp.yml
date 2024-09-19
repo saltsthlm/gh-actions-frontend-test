@@ -10,9 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      IMAGE_URL: europe-north1-docker.pkg.dev/pgp-sandbox/cloud-run-source-deploy/gh-actions-frontend-test/gh-actions-frontend-test:ce145503fa83ea0e0b6254635bd3ba9ba110a602
+      IMAGE_URL: ${{ vars.GC_AR_HOSTNAME }}/${{ vars.GC_PROJECT_ID }}/cloud-run-source-deploy/${{ vars.GC_REPO_NAME }}/${{ vars.GC_SERVICE_NAME }}:${{ github.sha }}
     steps:
-      # - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - id: "auth"
         name: Authenticate GCP
@@ -20,23 +20,23 @@ jobs:
         with:
           credentials_json: "${{ secrets.GCP_SA_KEY }}"
 
-      # - name: Set up Cloud SDK
-      #   uses: google-github-actions/setup-gcloud@v1
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
 
-      # - name: Use gcloud CLI
-      #   run: gcloud info
+      - name: Use gcloud CLI
+        run: gcloud info
 
-      # - name: Configure docker
-      #   run: gcloud auth configure-docker europe-north1-docker.pkg.dev
+      - name: Configure docker
+        run: gcloud auth configure-docker ${{ vars.GC_AR_HOSTNAME }}
 
-      # - name: Docker Build
-      #   run: docker build --build-arg VITE_REACT_APP_TEST_1=hardcoded-in-workflow-yml-3 --no-cache -t $IMAGE_URL . -f Dockerfile
+      - name: Docker Build
+        run: docker build --build-arg VITE_REACT_APP_TEST_1=hardcoded-in-workflow-yml-4 --no-cache -t ${{ env.IMAGE_URL }} . -f Dockerfile
 
-      # - name: Docker Push
-      #   run: docker push $IMAGE_URL
+      - name: Docker Push
+        run: docker push $IMAGE_URL
 
       - name: Update Cloud Run service
         uses: google-github-actions/deploy-cloudrun@v1
         with:
-          service: gh-actions-frontend-test
+          service: ${{ vars.GC_SERVICE_NAME }}
           image: ${{ env.IMAGE_URL }}
