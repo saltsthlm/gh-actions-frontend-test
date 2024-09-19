@@ -7,13 +7,13 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_URL: europe-north1-docker.pkg.dev/pgp-sandbox/cloud-run-source-deploy/gh-actions-frontend-test/gh-actions-frontend-test:${{ github.sha }}
+  IMAGE_URL: europe-north1-docker.pkg.dev/pgp-sandbox/cloud-run-source-deploy/gh-actions-frontend-test/gh-actions-frontend-test:16535510d3beb13dc2c5a65da0d5b42cadeb9900
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      # - uses: actions/checkout@v3
 
       - id: "auth"
         name: Authenticate GCP
@@ -27,17 +27,17 @@ jobs:
       - name: Use gcloud CLI
         run: gcloud info
 
-      - name: Configure docker
-        run: gcloud auth configure-docker europe-north1-docker.pkg.dev
+      # - name: Configure docker
+      #   run: gcloud auth configure-docker europe-north1-docker.pkg.dev
 
-      - name: Docker Build
-        run: docker build --build-arg VITE_REACT_APP_TEST_1=hardcoded-in-workflow-yml-3 --no-cache -t $IMAGE_URL . -f Dockerfile
+      # - name: Docker Build
+      #   run: docker build --build-arg VITE_REACT_APP_TEST_1=hardcoded-in-workflow-yml-3 --no-cache -t $IMAGE_URL . -f Dockerfile
 
-      - name: Docker Push
-        run: docker push $IMAGE_URL
+      # - name: Docker Push
+      #   run: docker push $IMAGE_URL
 
       - name: Update Cloud Run service
         uses: google-github-actions/deploy-cloudrun@v1
         with:
           service: gh-actions-frontend-test
-          image: $IMAGE_URL
+          image: europe-north1-docker.pkg.dev/pgp-sandbox/cloud-run-source-deploy/gh-actions-frontend-test/gh-actions-frontend-test:16535510d3beb13dc2c5a65da0d5b42cadeb9900
