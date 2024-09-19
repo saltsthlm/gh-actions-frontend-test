@@ -31,7 +31,7 @@ jobs:
         run: gcloud auth configure-docker europe-north1-docker.pkg.dev # value should be sth like europe-north1-docker.pkg.dev
 
       - name: Docker Build
-        run: docker build --build-arg VITE_REACT_APP_TEST_1=hardcoded-in-workflow-yml -t $IMAGE_URL . -f Dockerfile
+        run: docker build --build-arg VITE_REACT_APP_TEST_1=hardcoded-in-workflow-yml --no-cache -t $IMAGE_URL . -f Dockerfile
 
       - name: Docker Push
         run: docker push $IMAGE_URL
