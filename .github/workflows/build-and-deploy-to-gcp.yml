@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_URL: europe-north1-docker.pkg.dev/pgp-sandbox/cloud-run-source-deploy/gh-actions-frontend-test/gh-actions-frontend-test:${{ github.sha }}
+  IMAGE_URL: ${{ vars.GC_AR_HOSTNAME }}/${{ vars.GC_PROJECT_ID }}/cloud-run-source-deploy/${{ vars.GC_REPO_NAME }}/${{ vars.GC_SERVICE_NAME }}:${{ github.sha }}
 
 jobs:
   build:
@@ -28,10 +28,10 @@ jobs:
         run: gcloud info
 
       - name: Configure docker
-        run: gcloud auth configure-docker europe-north1-docker.pkg.dev # value should be sth like europe-north1-docker.pkg.dev
+        run: gcloud auth configure-docker ${{ vars.GC_AR_HOSTNAME }}
 
       - name: Docker Build
-        run: docker build --build-arg VITE_REACT_APP_TEST_1=hardcoded-in-workflow-yml --no-cache -t $IMAGE_URL . -f Dockerfile
+        run: docker build --build-arg VITE_REACT_APP_TEST_1=${{ secrets.VITE_REACT_APP_TEST_1 }} --no-cache -t $IMAGE_URL . -f Dockerfile
 
       - name: Docker Push
         run: docker push $IMAGE_URL
@@ -39,5 +39,5 @@ jobs:
       - name: Update Cloud Run service
         uses: google-github-actions/deploy-cloudrun@v1
         with:
-          service: gh-actions-frontend-test
-          image: europe-north1-docker.pkg.dev/pgp-sandbox/cloud-run-source-deploy/gh-actions-frontend-test/gh-actions-frontend-test:${{ github.sha }}
+          service: ${{ vars.GC_SERVICE_NAME }}
+          image: $IMAGE_URL
