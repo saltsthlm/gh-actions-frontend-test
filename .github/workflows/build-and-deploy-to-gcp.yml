@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_URL: ${{ vars.GC_AR_HOSTNAME }}/${{ vars.GC_PROJECT_ID }}/cloud-run-source-deploy/${{ vars.GC_REPO_NAME }}/${{ vars.GC_SERVICE_NAME }}:${{ github.sha }}
+  IMAGE_URL: europe-north1-docker.pkg.dev/pgp-sandbox/cloud-run-source-deploy/gh-actions-frontend-test/gh-actions-frontend-test:${{ github.sha }}
 
 jobs:
   build:
