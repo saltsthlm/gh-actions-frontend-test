@@ -40,4 +40,4 @@ jobs:
         uses: google-github-actions/deploy-cloudrun@v1
         with:
           service: gh-actions-frontend-test
-          image: $IMAGE_URL
+          image: europe-north1-docker.pkg.dev/pgp-sandbox/cloud-run-source-deploy/gh-actions-frontend-test/gh-actions-frontend-test:${{ github.sha }}
