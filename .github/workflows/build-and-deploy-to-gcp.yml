@@ -30,7 +30,7 @@ jobs:
         run: gcloud auth configure-docker ${{ vars.GC_AR_HOSTNAME }}
 
       - name: Docker Build
-        run: docker build --build-arg VITE_REACT_APP_TEST_1=hardcoded-in-workflow-yml-4 --no-cache -t ${{ env.IMAGE_URL }} . -f Dockerfile
+        run: docker build --build-arg VITE_REACT_APP_TEST_1=${{ secrets.VITE_REACT_APP_TEST_1 }} --no-cache -t ${{ env.IMAGE_URL }} . -f Dockerfile
 
       - name: Docker Push
         run: docker push $IMAGE_URL
