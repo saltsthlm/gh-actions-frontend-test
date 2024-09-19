@@ -39,5 +39,5 @@ jobs:
       - name: Update Cloud Run service
         uses: google-github-actions/deploy-cloudrun@v1
         with:
-          service: jokes
+          service: gh-actions-frontend-test
           image: europe-north1-docker.pkg.dev/pgp-sandbox/cloud-run-source-deploy/gh-actions-frontend-test/gh-actions-frontend-test
