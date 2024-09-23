@@ -39,5 +39,6 @@ jobs:
       - name: Update Cloud Run service
         uses: google-github-actions/deploy-cloudrun@v1
         with:
+          region: ${{ vars.GC_REGION }}
           service: ${{ vars.GC_SERVICE_NAME }}
           image: ${{ env.IMAGE_URL }}
