@@ -4,4 +4,4 @@ An environment secret (from the GitHub environment) is passed to the `docker bui
 
 There used to be another repo called gh-actions-frontend-test, which was moved to gcloud-build-frontend-test.
 
-Last deployed on 2024-09-19 15:56 on https://gh-actions-frontend-test-735865474111.us-central1.run.app/
+Last deployed on 2024-09-23 10:28 on https://gh-actions-frontend-test-735865474111.europe-north1.run.app/
