@@ -6,14 +6,11 @@ on:
       - main
   workflow_dispatch:
 
-env:
-  GC_AR_HOSTNAME: ${{ vars.GC_REGION }}-docker.pkg.dev
-
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      IMAGE_URL: $GC_AR_HOSTNAME/${{ vars.GC_PROJECT_ID }}/cloud-run-source-deploy/${{ vars.GC_REPO_NAME }}/${{ vars.GC_SERVICE_NAME }}:${{ github.sha }}
+      IMAGE_URL: ${{ vars.GC_REGION }}-docker.pkg.dev/${{ vars.GC_PROJECT_ID }}/cloud-run-source-deploy/${{ vars.GC_REPO_NAME }}/${{ vars.GC_SERVICE_NAME }}:${{ github.sha }}
 
     steps:
       - uses: actions/checkout@v3
@@ -31,7 +28,7 @@ jobs:
         run: gcloud info
 
       - name: Configure docker
-        run: gcloud auth configure-docker ${{ vars.GC_AR_HOSTNAME }}
+        run: gcloud auth configure-docker ${{ vars.GC_REGION }}-docker.pkg.dev
 
       - name: Docker Build
         run: docker build --build-arg VITE_REACT_APP_TEST_1="${{ secrets.VITE_REACT_APP_TEST_1 }}" --no-cache -t ${{ env.IMAGE_URL }} . -f Dockerfile
