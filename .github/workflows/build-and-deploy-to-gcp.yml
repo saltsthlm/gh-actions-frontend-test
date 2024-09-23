@@ -6,11 +6,14 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  GC_AR_HOSTNAME: ${{ vars.GC_REGION }}-docker.pkg.dev
+
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      IMAGE_URL: ${{ vars.GC_AR_HOSTNAME }}/${{ vars.GC_PROJECT_ID }}/cloud-run-source-deploy/${{ vars.GC_REPO_NAME }}/${{ vars.GC_SERVICE_NAME }}:${{ github.sha }}
+      IMAGE_URL: ${{ env.GC_AR_HOSTNAME }}/${{ vars.GC_PROJECT_ID }}/cloud-run-source-deploy/${{ vars.GC_REPO_NAME }}/${{ vars.GC_SERVICE_NAME }}:${{ github.sha }}
 
     steps:
       - uses: actions/checkout@v3
