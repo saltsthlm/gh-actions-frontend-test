@@ -30,6 +30,14 @@ jobs:
       - name: Configure docker
         run: gcloud auth configure-docker ${{ vars.GC_REGION }}-docker.pkg.dev
 
+      - name: Ensure Artifact Repository exists
+        run: |
+          gcloud artifacts repositories describe ${{ vars.GC_REPO_NAME }} \
+            --location=${{ vars.GC_REGION }} || \
+          gcloud artifacts repositories create ${{ vars.GC_REPO_NAME }} \
+            --repository-format=docker \
+            --location=${{ vars.GC_REGION }}
+
       - name: Docker Build
         run: docker build --build-arg VITE_REACT_APP_TEST_1="${{ secrets.VITE_REACT_APP_TEST_1 }}" --no-cache -t ${{ env.IMAGE_URL }} . -f Dockerfile
 
